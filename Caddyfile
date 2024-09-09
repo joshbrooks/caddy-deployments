@@ -1,0 +1,10 @@
+# Hello WOrld
+{$DOMAIN} {
+	tls {
+		dns digitalocean {$DIGITALOCEAN_ACCESS_TOKEN}
+	}
+	handle_path /static/* {
+		root * /static_serve
+		file_server browse
+	}
+}

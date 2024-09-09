@@ -1,0 +1,32 @@
+services:
+
+  caddy:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    command: caddy run --config /etc/caddy/Caddyfile --adapter caddyfile --envfile /run/secrets/do_token
+    secrets:
+      - do_token
+    env_file:
+      - ./domain.env
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./certs:/etc/certs
+      - ./static:/static_serve
+
+secrets:
+  do_token:
+    file: ./DIGITALOCEAN_ACCESS_TOKEN
+
+volumes:
+  caddy_data:
+  caddy_config:
