@@ -1,12 +1,7 @@
 services:
 
   caddy:
-    build:
-      dockerfile: Dockerfile
-      context: .
-    command: caddy run --config /etc/caddy/Caddyfile --adapter caddyfile --envfile /run/secrets/do_token
-    secrets:
-      - do_token
+    image: "caddy:2-alpine"
     env_file:
       - ./domain.env
     cap_add:
@@ -22,10 +17,6 @@ services:
       - caddy_config:/config
       - ./certs:/etc/certs
       - ./static:/static_serve
-
-secrets:
-  do_token:
-    file: ./DIGITALOCEAN_ACCESS_TOKEN
 
 volumes:
   caddy_data:
